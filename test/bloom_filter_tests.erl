@@ -23,10 +23,10 @@ bloom_filter_test() ->
 
 probability_test() ->
   Bloom = bloom_filter:new(256),
-  ?assertEqual(100, bloom_filter:probability(Bloom)),
+  ?assertEqual(0, bloom_filter:probability(Bloom)),
   Bloom1 = bloom_filter:add("test1", Bloom),
-  ?assertEqual(99, bloom_filter:probability(Bloom1)),
+  ?assertEqual(1, bloom_filter:probability(Bloom1)),
   Bloom2 = lists:foldl(fun(I, BloomAcc) ->
                         bloom_filter:add("test" ++ integer_to_list(I), BloomAcc)
                        end, Bloom1, lists:seq(1, 64)),
-  ?assertEqual(60, bloom_filter:probability(Bloom2)).
+  ?assertEqual(40, bloom_filter:probability(Bloom2)).
